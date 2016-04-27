@@ -18,7 +18,7 @@ getPath() {
 	temp_path=$#
 
 	if [ "$temp_path" != "" ]; then
-		read -p "Enter the ABSOLUTE path for the backup to be stored " path;
+		read -p "Enter the path where the backup is to be stored " path;
 		echo "$path";
 
 	fi
@@ -30,9 +30,9 @@ fullBackup(){
 	#stores the path passed in in a variable
 	getPath $path;
 
-	#this adds the path to the exclude list 
+	#This adds the path to the exclude list 
 	echo $path >> excludedLocations.txt;
-	#make a backup directory just in case it's not there already
+	make a backup directory just in case it's not there already
         mkdir -p $path;
 		
 	echo "Starting backup.....";
@@ -40,7 +40,7 @@ fullBackup(){
 	#-e specify remote shell,-p preserve permissions, -t preserve modification times
 	# --delete delete from target directory if it's deleted from  source
 	# --progress during trandfer,  
-    	rsync -avzhep ssh --progress --delete --max-size='10000k' --exclude-from 'excludedLocations.txt' /home/network/git-repos/SoftwareInstall $path;
+    	rsync -avzhep ssh --progress --delete --exclude-from 'excludedLocations.txt' /home/network $path;
 
    	echo -e "Backup complete, Press Enter:";
 
@@ -62,16 +62,15 @@ incrementalBackup(){
         #-e specify remote shell,-p preserve permissions, -t preserve modification times
         # --delete delete from target directory if it's deleted from  source
         # --progress during transfer,-b make backup into hierarchy
-        rsync -abvzhep ssh --progress --delete --max-size='10000k' --exclude-from 'excludedLocations.txt' /home/network/git-repos/SoftwareInstall $path
+        rsync -abvzhep ssh --progress --delete --exclude-from 'excludedLocations.txt' /home/network $path
         echo -e "Incremental Backup complete, Press Enter:";
 
 }
 
-# addCronTab function adds the cron job to the cron table. The frequency of the cron job running is
-# based on the value of the parameter passed into the function
+# addCronTab function adds the cron job to the cron table
 addCronTab()
 {
-	crontab -l | { cat; echo "$1 rsync -avbzhe ssh --delete --progress --max-size='10000k' --exclude-from 'excludedLocations.txt' /home/network/git-repos/SoftwareInstall"; } | crontab -;
+	crontab -l | { cat; echo "$1 rsync -avbzhe  --delete --progress  --exclude-from 'excludedLocations.txt' /home/network/backup"; } | crontab -;
 }
 
 
@@ -162,7 +161,7 @@ restoreBackup(){
 
 	#rsync pull request to restore from last  backup
 	echo "Restoring file from last known backup....";
-	rsync -abvzhe --progress --delete --max-size='10000k' --exclude-from 'excludedLocations.txt' /home/network/git-repos/SoftwareInstall $path;
+	rsync -abvzhe --progress --delete --exclude-from 'excludedLocations.txt' $path /home/network ;
 	echo "Last known backup restored";
 
 }
