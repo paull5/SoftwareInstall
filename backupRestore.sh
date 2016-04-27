@@ -48,11 +48,12 @@ fullBackup(){
 
 #incrementalBackup function uses rsync to backup only the files which have changed 
 incrementalBackup(){
+	NOW=$(date +"%d-%m-%y")
 
 	#stores the path in a variable
 	getPath $path;
 	#make a backup directory just in case it's not there already
-        mkdir -p $path;
+        mkdir -p $path.$NOW;
 
 	#add the path to the excluded file
         echo $path >> excludedLocations.txt;
@@ -62,7 +63,7 @@ incrementalBackup(){
         #-e specify remote shell,-p preserve permissions, -t preserve modification times
         # --delete delete from target directory if it's deleted from  source
         # --progress during transfer,-b make backup into hierarchy
-        rsync -abvzhep ssh --progress --delete --exclude-from 'excludedLocations.txt' /home/network $path
+        rsync -abvzhep ssh --progress --delete --exclude-from 'excludedLocations.txt' /home/network $path;
         echo -e "Incremental Backup complete, Press Enter:";
 
 }
