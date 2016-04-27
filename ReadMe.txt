@@ -10,6 +10,7 @@ Instructions for installing backup and restore shell script
 3.Again using nano create a text file called excludedLocations.txt   
 
 4.To run the backupRestore.sh script you will first have to make it executable to do this
+        From your home Directory
 	type chmod +x backupRestore.sh at the command promt 'press enter'
 5.Now your ready to run the file and get backing up 
 	run the script by typing ./backupRestore.sh at the command promt
