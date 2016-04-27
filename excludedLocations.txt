@@ -1,0 +1,16 @@
+/dev/*
+/proc/*
+/sys/*
+/tmp/*
+/run/*
+/mnt/*
+/lost+found
+/var/tmp/*
+/home/network
+/home/network/backup
+/home/backup
+/home/network/
+/home/network/backup
+/home/network/backup
+/home/network/backup
+/home/network/backup
