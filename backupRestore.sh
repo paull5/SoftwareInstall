@@ -11,6 +11,7 @@
 
 #!/bin/bash
 
+ROOT="/*";
 
 #getPath function takes in the path of the files to be backed up as an argument from the user 
 getPath() {
@@ -40,7 +41,7 @@ fullBackup(){
 	#-e specify remote shell,-p preserve permissions, -t preserve modification times
 	# --delete delete from target directory if it's deleted from  source
 	# --progress during trandfer,  
-    	rsync -avzhep ssh --progress --delete --exclude-from 'excludedLocations.txt' /home/network $path;
+    	rsync -avzhep ssh --progress --delete --exclude-from 'excludedLocations.txt'  $ROOT $path;
 
    	echo -e "Backup complete, Press Enter:";
 
@@ -162,7 +163,7 @@ restoreBackup(){
 
 	#rsync pull request to restore from last  backup
 	echo "Restoring file from last known backup....";
-	rsync -abvzhe --progress --delete --exclude-from 'excludedLocations.txt' $path /home/network ;
+	rsync -abvzhe --progress --delete --exclude-from 'excludedLocations.txt' $path $ROOT ;
 	echo "Last known backup restored";
 
 }
